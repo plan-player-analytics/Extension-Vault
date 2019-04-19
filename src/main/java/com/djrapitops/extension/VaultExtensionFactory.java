@@ -23,21 +23,34 @@
 package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.DataExtension;
-import com.djrapitops.plan.extension.annotation.PluginInfo;
-import com.djrapitops.plan.extension.icon.Color;
-import com.djrapitops.plan.extension.icon.Family;
+
+import java.util.Optional;
 
 /**
- * Template for new DataExtension.
+ * Factory for DataExtension.
  *
  * @author Rsl1122
  */
-@PluginInfo(name = "", iconName = "", iconFamily = Family.SOLID, color = Color.NONE)
-public class NewExtension implements DataExtension {
+public class VaultExtensionFactory {
 
-    public NewExtension() {
-        // TODO Add required API classes
+    private boolean isAvailable() {
+        try {
+            Class.forName("net.milkbowl.vault.Vault");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
-    // TODO Add Provider methods
+    public Optional<DataExtension> createExtension() {
+        try {
+            if (isAvailable()) {
+                return Optional.of(new VaultExtension());
+            }
+
+        } catch (NoSuchFieldError | NoSuchMethodError | Exception ecoServiceUnavailable) {
+            /* Economy service is unavailable. */
+        }
+        return Optional.empty();
+    }
 }

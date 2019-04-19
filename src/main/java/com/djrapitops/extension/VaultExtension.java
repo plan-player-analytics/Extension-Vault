@@ -23,29 +23,36 @@
 package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.DataExtension;
+import com.djrapitops.plan.extension.annotation.DoubleProvider;
+import com.djrapitops.plan.extension.annotation.PluginInfo;
+import com.djrapitops.plan.extension.icon.Color;
+import com.djrapitops.plan.extension.icon.Family;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 
-import java.util.Optional;
+import java.util.UUID;
 
 /**
- * Factory for DataExtension.
+ * DataExtension for Vault.
  *
  * @author Rsl1122
  */
-public class NewExtensionFactory {
+@PluginInfo(name = "Economy (Vault)", iconName = "money-bill-wave", iconFamily = Family.SOLID, color = Color.GREEN)
+public class VaultExtension implements DataExtension {
 
-    private boolean isAvailable() {
-        try {
-            Class.forName("");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
+    private Economy eco;
+
+    public VaultExtension() {
+        eco = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider();
     }
 
-    public Optional<DataExtension> createExtension() {
-        if (isAvailable()) {
-            return Optional.of(new NewExtension());
-        }
-        return Optional.empty();
+    @DoubleProvider(
+            text = "Balance",
+            description = "How much money the player has",
+            iconName = "money-bill-wave",
+            iconColor = Color.GREEN
+    )
+    public double balance(UUID playerUUID) {
+        return eco.getBalance(Bukkit.getOfflinePlayer(playerUUID));
     }
 }
