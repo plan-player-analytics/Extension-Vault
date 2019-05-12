@@ -48,7 +48,7 @@ public class VaultExtensionFactory {
                 return Optional.of(new VaultExtension());
             }
 
-        } catch (NoSuchFieldError | NoSuchMethodError | Exception ecoServiceUnavailable) {
+        } catch (NoClassDefFoundError | NoSuchFieldError | NoSuchMethodError | Exception ecoServiceUnavailable) {
             /* Economy service is unavailable. */
         }
         return Optional.empty();

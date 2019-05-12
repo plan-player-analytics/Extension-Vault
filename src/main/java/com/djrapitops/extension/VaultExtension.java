@@ -50,7 +50,8 @@ public class VaultExtension implements DataExtension {
             text = "Balance",
             description = "How much money the player has",
             iconName = "money-bill-wave",
-            iconColor = Color.GREEN
+            iconColor = Color.GREEN,
+            showInPlayerTable = true
     )
     public double balance(UUID playerUUID) {
         return eco.getBalance(Bukkit.getOfflinePlayer(playerUUID));
