@@ -23,12 +23,15 @@
 package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.DataExtension;
+import com.djrapitops.plan.extension.NotReadyException;
 import com.djrapitops.plan.extension.annotation.DoubleProvider;
 import com.djrapitops.plan.extension.annotation.PluginInfo;
 import com.djrapitops.plan.extension.icon.Color;
 import com.djrapitops.plan.extension.icon.Family;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.UUID;
 
@@ -38,12 +41,14 @@ import java.util.UUID;
  * @author Rsl1122
  */
 @PluginInfo(name = "Economy (Vault)", iconName = "money-bill-wave", iconFamily = Family.SOLID, color = Color.GREEN)
-public class VaultExtension implements DataExtension {
+public class EconomyExtension implements DataExtension {
 
     private Economy eco;
 
-    public VaultExtension() {
-        eco = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider();
+    public EconomyExtension() {
+        RegisteredServiceProvider<Economy> registration = Bukkit.getServicesManager().getRegistration(Economy.class);
+        if (registration == null) throw new NotReadyException();
+        eco = registration.getProvider();
     }
 
     @DoubleProvider(
@@ -54,6 +59,7 @@ public class VaultExtension implements DataExtension {
             showInPlayerTable = true
     )
     public double balance(UUID playerUUID) {
-        return eco.getBalance(Bukkit.getOfflinePlayer(playerUUID));
+        OfflinePlayer player = Bukkit.getOfflinePlayer(playerUUID);
+        return eco.hasAccount(player) ? eco.getBalance(player) : 0.0;
     }
 }

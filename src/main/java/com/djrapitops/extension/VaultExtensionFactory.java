@@ -24,7 +24,11 @@ package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.DataExtension;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * Factory for DataExtension.
@@ -42,12 +46,18 @@ public class VaultExtensionFactory {
         }
     }
 
-    public Optional<DataExtension> createExtension() {
-        try {
-            if (isAvailable()) {
-                return Optional.of(new VaultExtension());
-            }
+    public Collection<DataExtension> createExtensions() {
+        if (!isAvailable()) return Collections.emptyList();
 
+        Collection<DataExtension> extensions = new ArrayList<>();
+        getExtension(EconomyExtension::new).ifPresent(extensions::add);
+        getExtension(PermissionsExtension::new).ifPresent(extensions::add);
+        return extensions;
+    }
+
+    private Optional<DataExtension> getExtension(Supplier<DataExtension> constructor) {
+        try {
+            return Optional.of(constructor.get());
         } catch (NoClassDefFoundError | NoSuchFieldError | NoSuchMethodError | Exception ecoServiceUnavailable) {
             /* Economy service is unavailable. */
         }

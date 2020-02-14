@@ -39,7 +39,7 @@ class ExtensionImplementationTest {
 
     @BeforeEach
     void prepareExtractor() {
-        DataExtension extension = new VaultExtension();
+        DataExtension extension = new EconomyExtension();
         extractor = new ExtensionExtractor(extension);
     }
 
