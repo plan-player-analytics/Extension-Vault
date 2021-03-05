@@ -1,5 +1,5 @@
 /*
-    Copyright(c) 2019 Risto Lahtela (Rsl1122)
+    Copyright(c) 2019 Risto Lahtela (AuroraLS3)
 
     The MIT License(MIT)
 
@@ -38,7 +38,7 @@ import java.util.UUID;
 /**
  * DataExtension for Vault.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 @PluginInfo(name = "Economy (Vault)", iconName = "money-bill-wave", iconFamily = Family.SOLID, color = Color.GREEN)
 public class EconomyExtension implements DataExtension {

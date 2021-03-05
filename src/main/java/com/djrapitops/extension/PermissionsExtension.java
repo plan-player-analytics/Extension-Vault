@@ -1,5 +1,5 @@
 /*
-    Copyright(c) 2019 Risto Lahtela (Rsl1122)
+    Copyright(c) 2019 Risto Lahtela (AuroraLS3)
 
     The MIT License(MIT)
 
@@ -38,7 +38,7 @@ import java.util.UUID;
 /**
  * DataExtension for Vault.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 @PluginInfo(name = "Permission Groups (Vault)", iconName = "users-cog", iconFamily = Family.SOLID, color = Color.GREEN)
 public class PermissionsExtension implements DataExtension {
