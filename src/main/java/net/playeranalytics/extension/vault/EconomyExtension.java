@@ -23,9 +23,15 @@
 package net.playeranalytics.extension.vault;
 
 import com.djrapitops.plan.extension.DataExtension;
+import com.djrapitops.plan.extension.FormatType;
 import com.djrapitops.plan.extension.NotReadyException;
 import com.djrapitops.plan.extension.annotation.DoubleProvider;
+import com.djrapitops.plan.extension.annotation.GraphProvider;
 import com.djrapitops.plan.extension.annotation.PluginInfo;
+import com.djrapitops.plan.extension.graph.DataPoint;
+import com.djrapitops.plan.extension.graph.GraphColors;
+import com.djrapitops.plan.extension.graph.PlayerGraphDataSource;
+import com.djrapitops.plan.extension.graph.SeriesMetadata;
 import com.djrapitops.plan.extension.icon.Color;
 import com.djrapitops.plan.extension.icon.Family;
 import net.milkbowl.vault.economy.Economy;
@@ -33,7 +39,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * DataExtension for Vault.
@@ -61,5 +70,24 @@ public class EconomyExtension implements DataExtension {
     public double balance(UUID playerUUID) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(playerUUID);
         return eco.hasAccount(player) ? eco.getBalance(player) : 0.0;
+    }
+
+    @GraphProvider(
+            displayName = "Balance over time",
+            sampleInterval = 5, sampleIntervalUnit = TimeUnit.MINUTES
+    )
+    public PlayerGraphDataSource playerBalanceOverTime() {
+        return new PlayerGraphDataSource() {
+            @Override
+            public Optional<DataPoint> getPoint(long currentTimestamp, UUID playerUUID, String playerName) {
+                OfflinePlayer player = Bukkit.getOfflinePlayer(playerUUID);
+                return Optional.of(new DataPoint(currentTimestamp, List.of(eco.hasAccount(player) ? eco.getBalance(player) : 0.0)));
+            }
+
+            @Override
+            public List<SeriesMetadata> getSeriesMetadata() {
+                return List.of(new SeriesMetadata(eco.currencyNamePlural(), null, FormatType.NONE, GraphColors.GREEN));
+            }
+        };
     }
 }
