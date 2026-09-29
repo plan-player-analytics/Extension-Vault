@@ -28,10 +28,7 @@ import com.djrapitops.plan.extension.NotReadyException;
 import com.djrapitops.plan.extension.annotation.DoubleProvider;
 import com.djrapitops.plan.extension.annotation.GraphProvider;
 import com.djrapitops.plan.extension.annotation.PluginInfo;
-import com.djrapitops.plan.extension.graph.DataPoint;
-import com.djrapitops.plan.extension.graph.GraphColors;
-import com.djrapitops.plan.extension.graph.PlayerGraphDataSource;
-import com.djrapitops.plan.extension.graph.SeriesMetadata;
+import com.djrapitops.plan.extension.graph.*;
 import com.djrapitops.plan.extension.icon.Color;
 import com.djrapitops.plan.extension.icon.Family;
 import net.milkbowl.vault.economy.Economy;
@@ -86,7 +83,7 @@ public class EconomyExtension implements DataExtension {
 
             @Override
             public List<SeriesMetadata> getSeriesMetadata() {
-                return List.of(new SeriesMetadata(eco.currencyNamePlural(), null, FormatType.NONE, GraphColors.GREEN));
+                return List.of(new SeriesMetadata(eco.currencyNamePlural(), null, GraphFormatType.NONE, GraphColors.GREEN));
             }
         };
     }
