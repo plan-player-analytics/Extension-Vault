@@ -71,7 +71,8 @@ public class EconomyExtension implements DataExtension {
 
     @GraphProvider(
             displayName = "Balance over time",
-            sampleInterval = 5, sampleIntervalUnit = TimeUnit.MINUTES
+            sampleInterval = 5, sampleIntervalUnit = TimeUnit.MINUTES,
+            supportedAggregateFunctions = Aggregates.SUM_INTO_GRAPH
     )
     public PlayerGraphDataSource playerBalanceOverTime() {
         return new PlayerGraphDataSource() {

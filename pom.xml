@@ -6,7 +6,7 @@
 
     <groupId>net.playeranalytics</groupId>
     <artifactId>Extension-Vault</artifactId>
-    <version>1.7-R2.1</version>
+    <version>1.7-R2.2</version>
     <build>
         <plugins>
             <plugin>
